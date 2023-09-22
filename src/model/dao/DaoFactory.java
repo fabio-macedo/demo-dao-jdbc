@@ -1,5 +1,6 @@
 package model.dao;
 
+import db.DB;
 import model.dao.Impl.SellerDaoJDBC;
 
 //FÁBRICA DE 'DAOs'
@@ -12,6 +13,6 @@ mas internamente vai instanciar uma implementação, macete para não precisar expo
 */
 	
 	public static SellerDao createSellerDao() {
-		return new SellerDaoJDBC();
+		return new SellerDaoJDBC(DB.getConnection());
 	}
 }

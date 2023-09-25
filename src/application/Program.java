@@ -1,5 +1,6 @@
 package application;
 
+import java.util.Date;
 import java.util.List;
 
 import model.dao.DaoFactory;
@@ -39,6 +40,12 @@ uma forma também de criar uma injeção de dependência, sem explicitar a implement
 		for(Seller obj : list) {
 			System.out.println(obj);
 		}
+		
+		System.out.println("\n==== TEST 4: seller insert =====");
+//está aproveitando  o 'department' que foi instanciado anteriormente		
+		Seller newSeller = new Seller(null, "Greg", "greg@gmail.com",new Date(), 4000.0, department);
+		sellerDao.insert(newSeller);
+		System.out.println("Inserted new id = " + newSeller.getId());
 	}
 
 }

@@ -2,6 +2,7 @@ package application;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Scanner;
 
 import model.dao.DaoFactory;
 import model.dao.SellerDao;
@@ -13,6 +14,7 @@ public class Program {
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
 
+		Scanner sc = new Scanner(System.in);
 		
 /*está chamando a fábrica, o programa não conhece a implementação conhece somente a interface
 uma forma também de criar uma injeção de dependência, sem explicitar a implementação
@@ -54,8 +56,14 @@ uma forma também de criar uma injeção de dependência, sem explicitar a implement
 		sellerDao.update(seller);
 		System.out.println("Update completed");
 		
+		System.out.println("\n==== TEST 6: seller delete =====");
+		System.out.println("Enter id for delete test: ");
+		int id = sc.nextInt();
 		
+		sellerDao.deleteById(id);
+		System.out.println("Delete completed");
 		
+		sc.close();
 	}
 
 }

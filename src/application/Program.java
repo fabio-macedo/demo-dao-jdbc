@@ -31,7 +31,14 @@ uma forma também de criar uma injeção de dependência, sem explicitar a implement
 		for(Seller obj : list) {
 			System.out.println(obj);
 		}
+	
 		
+		System.out.println("\n==== TEST 3: seller findByAll =====");
+		list = sellerDao.findAll();
+		
+		for(Seller obj : list) {
+			System.out.println(obj);
+		}
 	}
 
 }

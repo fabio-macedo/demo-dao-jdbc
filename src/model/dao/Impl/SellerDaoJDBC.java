@@ -99,8 +99,47 @@ public class SellerDaoJDBC implements SellerDao {
 
 	@Override
 	public List<Seller> findAll() {
-		// TODO Auto-generated method stub
-		return null;
+		PreparedStatement st = null;
+		ResultSet rs = null;
+		try {
+			st = conn.prepareStatement(
+				"SELECT seller.*,department.Name as DepName "
+				+ "FROM seller INNER JOIN department "
+				+ "ON seller.DepartmentId = department.Id "
+				+ "ORDER BY Name");
+			
+			
+			rs = st.executeQuery();
+//aqui será while e não if, pois pode ter 0 ou mais valores no resultado,
+//logo o while irá percorrer enquanto houver o próximo
+			
+			List<Seller> list = new ArrayList<>();
+
+//para que não se acrescente valores repetidos, está usando o Map - chave e valor -
+			
+			Map<Integer, Department> map = new HashMap<>();
+			
+			while (rs.next()) {
+			
+				Department dep = map.get(rs.getInt("DepartmentId"));
+				
+				if(dep == null) {
+					dep = instantiateDepartment(rs);
+					map.put(rs.getInt("DepartmentId"), dep);
+				}
+				
+				Seller obj = instantiateSeller(rs, dep);
+				list.add(obj);	
+			}
+		return list;
+		}
+		catch(SQLException e) {
+			throw new DbException(e.getMessage());
+		}
+		finally {
+			DB.closeStatement(st);
+			DB.closeResultSet(rs);
+		}
 	}
 
 	@Override
@@ -116,6 +155,7 @@ public class SellerDaoJDBC implements SellerDao {
 				+ "ORDER BY Name");
 			
 			st.setInt(1, department.getId());
+			
 			rs = st.executeQuery();
 //aqui será while e não if, pois pode ter 0 ou mais valores no resultado,
 //logo o while irá percorrer enquanto houver o próximo
